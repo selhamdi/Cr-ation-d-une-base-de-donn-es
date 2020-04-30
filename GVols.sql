@@ -13,7 +13,7 @@ create table Client (
    constraint PK_CLIENT primary key nonclustered (Id_Client),
    constraint AK_IDENTIFIER_1_CLIENT unique (Id_Client)
 )
-go
+;
 
 /*==============================================================*/
 /* Table: Compagnie_Aerienne                                    */
@@ -25,7 +25,7 @@ create table Compagnie_Aerienne (
    constraint AK_IDENTIFIER_1_COMPAGNI unique (Id_Compagnie),
    constraint AK_IDENTIFIER_2_COMPAGNI unique (Id_Compagnie)
 )
-go
+;
 
 /*==============================================================*/
 /* Table: Reservation                                           */
@@ -37,7 +37,7 @@ create table Reservation (
    Date                 date             null,
    constraint PK_RESERVATION primary key nonclustered (Num_Reservation)
 )
-go
+;
 
 /*==============================================================*/
 /* Index: ASSOCIATION_1_FK                                      */
@@ -45,7 +45,7 @@ go
 create index ASSOCIATION_1_FK on Reservation (
 Id_Client ASC
 )
-go
+;
 
 /*==============================================================*/
 /* Index: ASSOCIATION_2_FK                                      */
@@ -53,8 +53,7 @@ go
 create index ASSOCIATION_2_FK on Reservation (
 id_Vol ASC
 )
-go
-
+;
 /*==============================================================*/
 /* Table: Vol                                                   */
 /*==============================================================*/
@@ -65,7 +64,7 @@ create table Vol (
    Date_Arrive          date             null,
    constraint PK_VOL primary key nonclustered (id_Vol)
 )
-go
+;
 
 /*==============================================================*/
 /* Index: ASSOCIATION_3_FK                                      */
@@ -73,50 +72,43 @@ go
 create index ASSOCIATION_3_FK on Vol (
 Id_Compagnie ASC
 )
-go
+;
 
 alter table Reservation
    add constraint FK_RESERVAT_ASSOCIATI_CLIENT foreign key (Id_Client)
       references Client (Id_Client)
-go
+;
 
 alter table Reservation
    add constraint FK_RESERVAT_ASSOCIATI_VOL foreign key (id_Vol)
       references Vol (id_Vol)
-go
-
+;
 alter table Vol
    add constraint FK_VOL_ASSOCIATI_COMPAGNI foreign key (Id_Compagnie)
       references Compagnie_Aerienne (Id_Compagnie)
-go
+;
 
 
--- Users --
-
-CREATE LOGIN Utilisateur1  
-    WITH PASSWORD = 'Utilisateur123';  
-GO  
-
-CREATE USER Utilisateur1 FOR LOGIN Utilisateur1;  
-GO  
- 
-GRANT select,insert to Utilisateur1 ;  
-GO 
+CREATE USER 'Salima'@'localhost' IDENTIFIED BY 'Admin123';
+GRANT ALL PRIVILEGES ON * . * TO 'Salima'@'localhost';
+FLUSH PRIVILEGES;
 
 
+CREATE USER 'user'@'localhost' IDENTIFIED BY '123456';
+GRANT CREATE, SELECT ON * . * TO 'user'@'localhost';
 -- Insertion --
 
-insert into Client values(1,'Ahmed','Ben Bahadou','47 Rue el ouzani','Ahmed.Ben@gmail.com')
-insert into Compagnie_Aerienne values(1,'CompanyVol')
-insert into Vol values (1,1,'2020-04-27',' 2020-04-29')
-insert into Reservation values(1,1,1,'2020-04-27')
+insert into Client values(1,'Ahmed','Ben Bahadou','47 Rue el ouzani','Ahmed.Ben@gmail.com');
+insert into Compagnie_Aerienne values(1,'CompanyVol');
+insert into Vol values (1,1,'2020-04-27',' 2020-04-29');
+insert into Reservation values(1,1,1,'2020-04-27');
 
 -- Select From All tables --
 
-select * from Client
-select * from  Compagnie_Aerienne
-select * from Vol
-select * from Reservation
+select * from Client ;
+select * from  Compagnie_Aerienne ;
+select * from Vol ;
+select * from Reservation ;
 
 -- Update --
 UPDATE Client
